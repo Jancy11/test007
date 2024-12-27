@@ -27,14 +27,15 @@ pipeline {
                 SONAR_TOKEN = credentials('Sonarqube-token') // Accessing the SonarQube token stored in Jenkins credentials
             }
             steps {
+                // Ensure that sonar-scanner is in the PATH
                 bat '''
+                where sonar-scanner || echo "SonarQube scanner not found. Please install it."
                 set PATH=%PYTHON_PATH%;%PATH%
                 sonar-scanner -Dsonar.projectKey=test007 ^
-                  -Dsonar.sources=. ^
-                  -Dsonar.host.url=http://localhost:9000 ^
-                  -Dsonar.token=%SONAR_TOKEN%
+                    -Dsonar.sources=. ^
+                    -Dsonar.host.url=http://localhost:9000 ^
+                    -Dsonar.token=%SONAR_TOKEN%
                 '''
-            
             }
         }
     }
@@ -51,4 +52,3 @@ pipeline {
         }
     }
 }
-
